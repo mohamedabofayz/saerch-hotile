@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hotel Operators Lookup</title>
+</head>
+<body>
+
+<h2>بحث عن فندق</h2>
+<input id="hotel" placeholder="أدخل اسم الفندق">
+<button onclick="search()">بحث</button>
+
+<pre id="result"></pre>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbx1KTtXXjV8s5s26fAmrF2MVqnaVUbsmApVbacMeXvLGVcrfZ6pdVqAxnUbzCpqPNrCug/exec";
+
+async function search(){
+  const name = document.getElementById("hotel").value;
+  const res = await fetch(`${API}?action=getHotel&name=${encodeURIComponent(name)}`);
+  const data = await res.json();
+
+  document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
