@@ -1,4 +1,1226 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2c3e50">
+    <title>لوحة التحكم الهوستر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --shadow-sm: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            --shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+            --shadow-lg: 0 1rem 3rem rgba(0,0,0,0.175);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* وضع الشاشة الرئيسية (الأيقونات) */
+        .main-dashboard {
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        /* وضع التطبيق الكامل (ملء الشاشة) */
+        .app-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .app-fullscreen.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from { 
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to { 
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* شريط الأدوات العلوي */
+        .app-toolbar {
+            background: var(--secondary);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .app-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toolbar-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toolbar-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+
+        .toolbar-btn.refresh {
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        .toolbar-btn.refresh:hover {
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        /* محتوى التطبيق */
+        .app-content-full {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            background: #f8f9fa;
+        }
+
+        /* منطقة التطبيقات - تصميم Odoo Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 24px;
+            margin: 32px auto;
+            max-width: 1400px;
+            padding: 0 16px;
+        }
+
+        .app-tile {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px 16px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.08), transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .app-tile:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
+        .app-tile:hover::before {
+            opacity: 1;
+        }
+
+        .app-icon-container {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-size: 32px;
+            transition: var(--transition);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .app-tile:hover .app-icon-container {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .app-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--gray-800);
+            margin-top: 8px;
+            display: block;
+            transition: var(--transition);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .app-tile:hover .app-name {
+            color: var(--primary-dark);
+        }
+
+        /* الترويسة */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* منطقة البحث */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 14px 24px 14px 50px;
+            border-radius: 50px;
+            border: 2px solid var(--gray-300);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            font-size: 1.2rem;
+        }
+
+        /* محتوى تجريبي */
+        .demo-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin: 0 auto;
+            max-width: 800px;
+            min-height: calc(100vh - 150px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .demo-content i {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .demo-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--secondary);
+        }
+
+        .demo-content p {
+            color: var(--gray-700);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 650px;
+        }
+
+        .demo-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .demo-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+        }
+
+        /* الاستجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 16px;
+                padding: 0 12px;
+            }
+            
+            .app-icon-container {
+                width: 60px;
+                height: 60px;
+                font-size: 26px;
+            }
+            
+            .app-name {
+                font-size: 0.95rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .app-toolbar {
+                padding: 12px 20px;
+            }
+            
+            .app-title {
+                font-size: 1.2rem;
+            }
+            
+            .toolbar-btn, .back-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 12px;
+                padding: 0 8px;
+            }
+            
+            .app-icon-container {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            
+            .app-name {
+                font-size: 0.85rem;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .demo-content {
+                padding: 25px;
+                min-height: calc(100vh - 120px);
+            }
+            
+            .demo-content i {
+                font-size: 4rem;
+            }
+            
+            .demo-content h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الشاشة الرئيسية (لوحة الأيقونات) -->
+    <div class="main-dashboard" id="mainDashboard">
+        <!-- منطقة البحث -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="appSearch" placeholder="ابحث عن تطبيق..." aria-label="بحث عن تطبيق">
+        </div>
+
+        <!-- الترويسة -->
+        <div class="header">
+            <h1><i class="fas fa-th-large"></i> لوحة التحكم</h1>
+            <p>اختر التطبيق الذي تريد العمل عليه من القائمة أدناه</p>
+        </div>
+
+        <!-- شبكة التطبيقات (مثل Odoo) -->
+        <div class="apps-grid">
+            <div class="app-tile" data-app="invoices">
+                <div class="app-icon-container">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <span class="app-name">إدارة الفواتير</span>
+            </div>
+            
+            <div class="app-tile" data-app="hotels">
+                <div class="app-icon-container" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <i class="fas fa-hotel"></i>
+                </div>
+                <span class="app-name">بدائل توافر الحجوزات</span>
+            </div>
+            
+            <div class="app-tile" data-app="ramadan">
+                <div class="app-icon-container" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <span class="app-name">عروض رمضان</span>
+            </div>
+            
+            <div class="app-tile" data-app="customers">
+                <div class="app-icon-container" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span class="app-name">إدارة العملاء</span>
+            </div>
+            
+            <div class="app-tile" data-app="reports">
+                <div class="app-icon-container" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <span class="app-name">التقارير</span>
+            </div>
+            
+            <div class="app-tile" data-app="settings">
+                <div class="app-icon-container" style="background: linear-gradient(135deg, #34495e, #2c3e50);">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="app-name">الإعدادات</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- نموذج تطبيق إدارة الفواتير (ملء الشاشة) -->
+    <div id="invoicesApp" class="app-fullscreen">
+        <div class="app-toolbar">
+            <div class="toolbar-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="app-title">إدارة الفواتير</h2>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn refresh" onclick="refreshApp('invoices')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="app-content-full">
+    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نموذج طلب حجز (يدوي)</title>
+<style>
+  body { font-family: "Tajawal", sans-serif; background: #f7f7f7; padding: 20px; color: #333; margin: 0; }
+  .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+  h2 { text-align: center; margin-bottom: 20px; color: #444; }
+  .row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .row input, .row select { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; box-sizing: border-box; }
+  .group-title { font-weight: bold; margin-top: 25px; background: #f1f3f5; padding: 10px; border-radius: 6px; border-right: 4px solid #007bff; margin-bottom: 10px; }
+  button { width: 100%; padding: 14px; border: none; border-radius: 8px; background: #007bff; color: white; font-size: 17px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+  button:hover { background: #005fcc; }
+  button:disabled { background: #ccc; cursor: not-allowed; }
+  img.logo { width: 180px; display: block; margin: 10px auto 20px auto; }
+  #addGuestBtn { background: #28a745; margin-top: 10px; width: auto; display: block; margin-right: auto; margin-left: auto; padding: 10px 30px; }
+  #addGuestBtn:hover { background: #218838; }
+  #totalField { background-color: #e9ecef; font-weight: bold; color: #333; font-size: 1.1em; text-align: center; }
+    
+  /* Invoice Section Styles */
+  .invoices-section { margin-top: 40px; border-top: 2px dashed #ddd; padding-top: 20px; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+  .refresh-btn { background: #6c757d; width: auto; padding: 8px 15px; margin: 0; font-size: 14px; }
+  .refresh-btn:hover { background: #5a6268; }
+    
+  .invoice-card { background: #fdfdfd; border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+  .invoice-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  .invoice-info { text-align: right; }
+  .invoice-info strong { display: block; margin-bottom: 4px; color: #333; font-size: 1.1em; }
+  .invoice-info span { font-size: 12px; color: #777; display: block; }
+  .invoice-link { text-decoration: none; background: #dc3545; color: white; padding: 8px 15px; border-radius: 5px; font-size: 14px; white-space: nowrap; margin-right: 10px; }
+  .invoice-link:hover { background: #c82333; }
+  .empty-msg { text-align: center; color: #777; padding: 20px; font-style: italic; }
+
+  @media (max-width: 600px) { .row { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<div id="loginBox" class="container">
+  <img class="logo" src="https://iroom.ai/web/image/website/1/logo/iroom?unique=89c76a1" alt="Logo">
+  <h2>تسجيل دخول النظام</h2>
+  <form id="loginForm">
+    <div class="row">
+      <input type="tel" id="phone" placeholder="رقم الجوال" required>
+    </div>
+    <div class="row">
+      <input type="password" id="password" placeholder="كلمة المرور" required>
+    </div>
+    <button type="submit" id="loginBtn">تسجيل الدخول</button>
+  </form>
+  <p id="loginMsg" style="text-align:center; color:#dc3545; margin-top:10px;"></p>
+</div>
+
+<div id="appBox" class="container" style="display:none;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <img class="logo" src="https://iroom.ai/web/image/website/1/logo/iroom?unique=89c76a1" alt="Logo" style="margin:0; width:120px;">
+    <div style="text-align: left;">
+      <div style="margin-bottom:5px;">مرحباً، <span id="userName" style="font-weight:bold; color:#007bff;"></span></div>
+      <button onclick="logout()" style="background:#dc3545; padding:5px 15px; border-radius:5px; color:white; border:none; cursor:pointer; font-size:14px; width:auto; margin:0;">تسجيل خروج</button>
+    </div>
+  </div>
+
+  <h2 id="formTitle">نموذج طلب حجز (يدوي)</h2>
+    
+  <div id="editModeAlert" style="display:none; background:#fff3cd; color:#856404; padding:10px; margin-bottom:15px; border:1px solid #ffeeba; border-radius:5px; text-align:center;">
+    أنت الآن في وضع تعديل الفاتورة. <a href="#" onclick="resetFormToDefault(); return false;" style="color:#856404; font-weight:bold;">إلغاء التعديل</a>
+  </div>
+
+  <form id="bookingForm">
+    <div class="row">
+      <input type="text" name="invoice" id="invoiceNumber" placeholder="رقم الفاتورة" required readonly style="background:#f9f9f9;">
+      <input type="text" name="clientName" placeholder="إسم العميل" required>
+    </div>
+    <div class="row">
+      <input type="text" name="clientPhone" placeholder="رقم الجوال" required>
+      <input type="text" name="address" placeholder="العنوان">
+    </div>
+    <div class="row">
+      <input type="email" name="clientEmail" placeholder="البريد الالكتروني">
+    </div>
+      
+    <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+      
+    <div class="row">
+      <input type="text" name="hotelName" placeholder="اسم الفندق" required>
+      <input type="text" name="hotelPhone" placeholder="جوال الفندق">
+    </div>
+    <div class="row">
+      <input type="email" name="hotelEmail" placeholder="البريد الفندق">
+      <input type="text" name="todayDate" id="todayField" placeholder="تاريخ اليوم" readonly>
+    </div>
+
+    <div id="guestContainer"></div>
+      
+    <button id="addGuestBtn" type="button" onclick="addGuest()">+ إضافة ضيف</button>
+      
+    <div class="row" style="margin-top:20px;">
+      <label style="padding:10px; font-weight:bold; display:flex; align-items:center;">الإجمالي الكلي (شامل الضريبة):</label>
+      <input type="text" name="total" id="totalField" placeholder="0.00" readonly>
+    </div>
+      
+    <button type="submit" id="sendBtn">إرسال الطلب وإنشاء الفاتورة</button>
+  </form>
+
+  <div class="invoices-section">
+    <div class="section-header">
+      <h3 style="margin:0;">📂 آخر الفواتير</h3>
+      <button type="button" class="refresh-btn" onclick="loadInvoices()">🔄 تحديث</button>
+    </div>
+    <div id="invoiceList"><p class="empty-msg">جاري التحميل...</p></div>
+  </div>
+</div>
+
+<script>
+// رابط Google Apps Script الخاص بك
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBt3Dm6LX1CKwg3Nw1pzz4UeJit6j31GxaON04BmhVXBvWj2ivrjTZ_GB6t-KOtzv0/exec";
+
+let guestCount = 0;
+let currentUser = null;
+let isEditMode = false;
+
+// --- Helper Functions ---
+
+function generateInvoice() {
+  if(isEditMode) return;
+  invoiceNumber.value = "INV-" + Math.floor(Math.random() * 1000000);
+  const d = new Date();
+  todayField.value = formatDateForInput(d); 
+}
+
+function formatDateForInput(dateVal) {
+    if (!dateVal) return "";
+    let d = new Date(dateVal);
+    if (isNaN(d.getTime())) return ""; 
+    
+    // استخدام التوقيت المحلي بدلاً من UTC
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function addGuest() {
+  guestCount++;
+    
+  if (guestCount > 4) {
+    showMessage("لا يمكن إضافة أكثر من 4 ضيوف", "error");
+    guestCount--;
+    return;
+  }
+    
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <div class="group-title">بيانات الضيف ${guestCount}</div>
+    <div class="row">
+      <input name="name${guestCount}" placeholder="اسم الضيف">
+      <input type="date" name="checkin${guestCount}" onchange="calcNights(${guestCount})">
+    </div>
+    <div class="row">
+      <input type="date" name="checkout${guestCount}" onchange="calcNights(${guestCount})">
+      <input name="nights${guestCount}" placeholder="عدد الليالي" readonly style="background:#eee;">
+    </div>
+    <div class="row">
+      <select name="type${guestCount}">
+        <option value="">— نوع الغرفة —</option>
+        <option value="مفردة">مفردة</option>
+        <option value="مزدوجة">مزدوجة</option>
+        <option value="ثلاثية">ثلاثية</option>
+        <option value="رباعية">رباعية</option>
+        <option value="خماسية">خماسية</option>
+      </select>
+      <input type="number" name="rooms${guestCount}" value="1" min="1" placeholder="عدد الغرف">
+    </div>
+    <div class="row">
+      <input type="number" name="amount${guestCount}" step="0.01" placeholder="السعر الإجمالي لهذا الضيف" oninput="calcTotal()" style="border-color: #28a745;">
+    </div>
+  `;
+  guestContainer.appendChild(div);
+    
+  if (guestCount >= 4) {
+    document.getElementById('addGuestBtn').disabled = true;
+    document.getElementById('addGuestBtn').textContent = 'تم الوصول إلى الحد الأقصى (4 ضيوف)';
+  }
+}
+
+function calcNights(i) {
+  const form = document.getElementById('bookingForm');
+  const checkin = form[`checkin${i}`].value;
+  const checkout = form[`checkout${i}`].value;
+  if (checkin && checkout) {
+    const diff = new Date(checkout) - new Date(checkin);
+    const nights = Math.max(0, diff / (1000 * 60 * 60 * 24));
+    form[`nights${i}`].value = nights + " ليلة";
+  } else {
+    form[`nights${i}`].value = "";
+  }
+}
+
+function calcTotal() {
+  let sum = 0;
+  const inputs = document.querySelectorAll("input[name^='amount']");
+  inputs.forEach(input => {
+    sum += parseFloat(input.value) || 0;
+  });
+  document.getElementById('totalField').value = sum.toFixed(2);
+}
+
+async function postToGAS(data) {
+  try {
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+    return await res.json();
+  } catch (error) {
+    throw new Error("فشل الاتصال بالسيرفر");
+  }
+}
+
+// دالة دمج بيانات الغرف قبل الإرسال
+function prepareGuestDataForSubmission(data) {
+    for (let i = 1; i <= guestCount; i++) {
+        const typeField = `type${i}`;
+        const roomsField = `rooms${i}`;
+        if (data[typeField] || data[roomsField]) {
+            const roomType = data[typeField] || "";
+            const roomCount = data[roomsField] || "1";
+            if(roomType) {
+                data[typeField] = `${roomType} X ${roomCount} غرفة`;
+            }
+        }
+    }
+    return data;
+}
+
+// --- Event Handlers ---
+
+loginForm.onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const msg = document.getElementById('loginMsg');
+    
+  btn.disabled = true;
+  btn.textContent = "جاري التحقق...";
+  msg.textContent = "";
+
+  try {
+    const payload = {
+      action: "login",
+      phone_number: document.getElementById('phone').value,
+      password: document.getElementById('password').value
+    };
+
+    const data = await postToGAS(payload);
+
+    if (data.status === "success") {
+      currentUser = data.user;
+      localStorage.setItem("phone_number", currentUser.phone_number);
+        
+      document.getElementById('userName').textContent = currentUser.username;
+      document.getElementById('loginBox').style.display = "none";
+      document.getElementById('appBox').style.display = "block";
+        
+      generateInvoice();
+      guestContainer.innerHTML = ""; 
+      guestCount = 0; 
+      const addGuestBtn = document.getElementById('addGuestBtn');
+      addGuestBtn.disabled = false;
+      addGuestBtn.textContent = '+ إضافة ضيف';
+      addGuest();
+      loadInvoices();
+    } else {
+      msg.textContent = data.message || "خطأ في تسجيل الدخول";
+    }
+  } catch (err) {
+    msg.textContent = "خطأ في الاتصال: " + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "تسجيل الدخول";
+  }
+};
+
+bookingForm.onsubmit = async (e) => {
+    e.preventDefault();
+    if (isEditMode) {
+        await handleUpdateInvoice();
+    } else {
+        await handleCreateInvoice();
+    }
+};
+
+async function handleCreateInvoice() {
+  const btn = document.getElementById('sendBtn');
+  if(!showConfirm("هل أنت متأكد من إرسال البيانات؟")) return;
+
+  btn.disabled = true;
+  btn.textContent = "جاري الإرسال...";
+
+  const formData = new FormData(bookingForm);
+  let data = Object.fromEntries(formData.entries());
+  data.userId = currentUser.id;
+  data.action = "create_invoice";
+  
+  data = prepareGuestDataForSubmission(data);
+
+  try {
+    const res = await postToGAS(data);
+    if (res.status === "success") {
+      showMessage("✅ تم الحفظ بنجاح!", "success");
+      resetFormToDefault();
+      setTimeout(loadInvoices, 1500);
+    } else {
+      showMessage("⚠️ حدث خطأ: " + res.message, "error");
+    }
+  } catch (err) {
+    showMessage("❌ فشل الاتصال: " + err.message, "error");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = isEditMode ? "تحديث الفاتورة" : "إرسال الطلب وإنشاء الفاتورة";
+  }
+}
+
+async function handleUpdateInvoice() {
+    const btn = document.getElementById('sendBtn');
+    if (!showConfirm("هل أنت متأكد من تحديث بيانات الفاتورة؟")) return;
+    
+    btn.disabled = true;
+    btn.textContent = "جاري التحديث...";
+    
+    const formData = new FormData(document.getElementById('bookingForm'));
+    let data = Object.fromEntries(formData.entries());
+    
+    data = prepareGuestDataForSubmission(data);
+    
+    try {
+        const payload = {
+            action: "update_invoice",
+            invoice_no: data.invoice,
+            updated_data: data,
+            phone_number: currentUser.phone_number
+        };
+        
+        const response = await postToGAS(payload);
+        if (response.status === "success") {
+            showMessage("✅ تم تحديث الفاتورة بنجاح!", "success");
+            resetFormToDefault();
+            loadInvoices();
+        } else {
+            showMessage("⚠️ حدث خطأ أثناء التحديث: " + response.message, "error");
+        }
+    } catch (err) {
+        showMessage("❌ فشل الاتصال أثناء التحديث: " + err.message, "error");
+    } finally {
+        btn.disabled = false;
+        if(isEditMode) {
+             btn.textContent = "تحديث الفاتورة";
+        } else {
+             btn.textContent = "إرسال الطلب وإنشاء الفاتورة";
+        }
+    }
+}
+
+async function loadInvoices() {
+  const list = document.getElementById('invoiceList');
+  list.innerHTML = '<p class="empty-msg">جاري تحميل الفواتير...</p>';
+    
+  if (!currentUser) return;
+
+  try {
+    const payload = {
+      action: "get_invoices",
+      userId: currentUser.id,
+      role: currentUser.role
+    };
+
+    const data = await postToGAS(payload);
+    
+    if (!data.invoices || data.invoices.length === 0) {
+      list.innerHTML = '<p class="empty-msg">لا توجد فواتير مسجلة اليوم.</p>';
+      return;
+    }
+
+    let html = "";
+    data.invoices.forEach(inv => {
+      let buttonsHtml = '';
+      if (currentUser && currentUser.role === "admin") {
+        buttonsHtml = `<button class="edit-btn" onclick="showEditInvoice('${inv.invoice_no}')">تعديل</button><button class="delete-btn" onclick="deleteInvoice('${inv.invoice_no}')">حذف</button>`;
+      }
+      html += `
+        <div class="invoice-card">
+          <div class="invoice-info">
+            <strong>${inv.name || 'بدون اسم'}</strong>
+            <span>فاتورة: ${inv.invoice_no || '#'} | ${inv.date}</span>
+          </div>
+          <div style="display: flex; gap: 5px;">
+            <a class="invoice-link" target="_blank" href="${inv.link}">عرض PDF</a>
+            ${buttonsHtml}
+          </div>
+        </div>
+      `;
+    });
+    list.innerHTML = html;
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .edit-btn, .delete-btn { width: auto; padding: 8px 12px; margin: 0; font-size: 14px; border-radius: 5px; border: none; cursor: pointer; }
+      .edit-btn { background: #ffc107; color: #212529; } .edit-btn:hover { background: #e0a800; }
+      .delete-btn { background: #dc3545; color: white; } .delete-btn:hover { background: #c82333; }
+    `;
+    if (!document.querySelector('#invoice-buttons-style')) {
+      style.id = 'invoice-buttons-style';
+      document.head.appendChild(style);
+    }
+
+  } catch (err) {
+    list.innerHTML = '<p class="empty-msg" style="color:red">فشل تحميل القائمة</p>';
+    console.error(err);
+  }
+}
+
+async function logout() {
+  const phone = localStorage.getItem("phone_number");
+  if(phone) {
+    postToGAS({ action: "logout", phone_number: phone }).catch(()=>{});
+  }
+  currentUser = null;
+  localStorage.removeItem("phone_number");
+  document.getElementById('loginBox').style.display = "block";
+  document.getElementById('appBox').style.display = "none";
+  document.getElementById('loginForm').reset();
+}
+
+window.onload = async () => {
+  const phone = localStorage.getItem("phone_number");
+  if (!phone) return;
+
+  document.getElementById('loginMsg').textContent = "استعادة الجلسة...";
+
+  try {
+    const res = await postToGAS({ action: "check_session", phone_number: phone });
+    
+    if (res.status === "success") {
+      currentUser = res.user;
+      document.getElementById('userName').textContent = currentUser.username;
+      document.getElementById('loginBox').style.display = "none";
+      document.getElementById('appBox').style.display = "block";
+        
+      generateInvoice();
+      const addGuestBtn = document.getElementById('addGuestBtn');
+      addGuestBtn.disabled = false;
+      addGuestBtn.textContent = '+ إضافة ضيف';
+      addGuest(); 
+      loadInvoices();
+    } else {
+      localStorage.removeItem("phone_number");
+    }
+  } catch (err) {
+    console.error("Session check failed", err);
+  } finally {
+    document.getElementById('loginMsg').textContent = "";
+  }
+};
+
+async function showEditInvoice(invoiceNo) {
+  if (!currentUser || currentUser.role !== "admin") {
+    showMessage("لا تملك صلاحيات التعديل", "error");
+    return;
+  }
+  
+  const btn = document.querySelector(`button[onclick="showEditInvoice('${invoiceNo}')"]`);
+  const originalText = btn ? btn.textContent : "تعديل";
+  if(btn) btn.textContent = "جاري الجلب...";
+    
+  try {
+    const payload = {
+      action: "get_invoice_by_number",
+      invoice_no: invoiceNo,
+      phone_number: currentUser.phone_number
+    };
+      
+    const response = await postToGAS(payload);
+    if (response.status === "success" && response.invoice) {
+      fillEditForm(response.invoice);
+    } else {
+      showMessage("فشل في جلب بيانات الفاتورة", "error");
+    }
+  } catch (err) {
+    console.error(err);
+    showMessage("حدث خطأ أثناء جلب بيانات الفاتورة", "error");
+  } finally {
+    if(btn) btn.textContent = originalText;
+  }
+}
+
+function fillEditForm(invoiceData) {
+  console.log("البيانات القادمة من السيرفر:", invoiceData); 
+
+  try {
+      isEditMode = true; 
+      
+      document.getElementById('formTitle').textContent = "تعديل الفاتورة: " + invoiceData.invoice;
+      document.getElementById('sendBtn').textContent = "تحديث الفاتورة";
+      document.getElementById('editModeAlert').style.display = "block";
+      
+      document.getElementById('invoiceNumber').value = invoiceData.invoice || '';
+      document.getElementById('invoiceNumber').readOnly = true;
+      
+      document.querySelector('[name="clientName"]').value = invoiceData.clientName || '';
+      document.querySelector('[name="clientPhone"]').value = invoiceData.clientPhone || '';
+      document.querySelector('[name="address"]').value = invoiceData.address || '';
+      document.querySelector('[name="clientEmail"]').value = invoiceData.clientEmail || '';
+      document.querySelector('[name="hotelName"]').value = invoiceData.hotelName || '';
+      document.querySelector('[name="hotelPhone"]').value = invoiceData.hotelPhone || '';
+      document.querySelector('[name="hotelEmail"]').value = invoiceData.hotelEmail || '';
+      
+      document.querySelector('[name="todayDate"]').value = formatDateForInput(invoiceData.todayDate);
+      
+      document.getElementById('guestContainer').innerHTML = '';
+      guestCount = 0;
+      
+      // تحديد عدد الضيوف
+      let maxGuestIndex = 0;
+      for (let i = 1; i <= 4; i++) {
+        if (invoiceData[`name${i}`] || invoiceData[`amount${i}`]) {
+          maxGuestIndex = i;
+        }
+      }
+
+      if (maxGuestIndex === 0) maxGuestIndex = 1;
+      
+      for (let i = 1; i <= maxGuestIndex; i++) {
+          addGuest(); 
+          
+          const form = document.getElementById('bookingForm');
+          
+          if(form.querySelector(`[name="name${guestCount}"]`)) {
+             form.querySelector(`[name="name${guestCount}"]`).value = invoiceData[`name${i}`] || '';
+             form.querySelector(`[name="checkin${guestCount}"]`).value = formatDateForInput(invoiceData[`checkin${i}`]);
+             form.querySelector(`[name="checkout${guestCount}"]`).value = formatDateForInput(invoiceData[`checkout${i}`]);
+             form.querySelector(`[name="nights${guestCount}"]`).value = invoiceData[`nights${i}`] || '';
+             form.querySelector(`[name="amount${guestCount}"]`).value = invoiceData[`amount${i}`] || '';
+
+             // معالجة نوع الغرفة
+             const rawType = invoiceData[`type${i}`] || '';
+             let roomTypeName = rawType;
+             let roomCount = 1;
+              
+             if (rawType && rawType.includes(' X ')) {
+                 const parts = rawType.split(' X ');
+                 if (parts.length >= 2) {
+                     roomTypeName = parts[0].trim();
+                     const countMatch = parts[1].match(/\d+/); 
+                     if (countMatch) {
+                         roomCount = parseInt(countMatch[0]);
+                     }
+                 }
+             }
+              
+             const typeSelect = form.querySelector(`[name="type${guestCount}"]`);
+             if(typeSelect) typeSelect.value = roomTypeName;
+              
+             const roomsInput = form.querySelector(`[name="rooms${guestCount}"]`);
+             if(roomsInput) roomsInput.value = roomCount;
+          }
+      }
+      
+      // إذا كان الإجمالي فارغ في الفاتورة، نقوم بحسابه
+      if(invoiceData.total && invoiceData.total !== "") {
+          document.getElementById('totalField').value = invoiceData.total;
+      } else {
+          calcTotal();
+      }
+      
+      document.getElementById('appBox').scrollIntoView({ behavior: 'smooth' });
+
+  } catch (error) {
+      console.error("Error filling form:", error);
+      showMessage("بيانات الفاتورة غير مكتملة، يرجى مراجعة لوحة التحكم", "error");
+  }
+}
+
+function resetFormToDefault() {
+  isEditMode = false;
+  
+  document.getElementById('formTitle').textContent = "نموذج طلب حجز (يدوي)";
+  document.getElementById('sendBtn').textContent = "إرسال الطلب وإنشاء الفاتورة";
+  document.getElementById('editModeAlert').style.display = "none";
+  
+  document.getElementById('invoiceNumber').readOnly = false;
+  document.getElementById('bookingForm').reset();
+  
+  document.getElementById('guestContainer').innerHTML = '';
+  guestCount = 0;
+  
+  const addGuestBtn = document.getElementById('addGuestBtn');
+  addGuestBtn.disabled = false;
+  addGuestBtn.textContent = '+ إضافة ضيف';
+  
+  addGuest();
+  generateInvoice();
+}
+
+async function deleteInvoice(invoiceNo) {
+  if (!currentUser || currentUser.role !== "admin") {
+    showMessage("لا تملك صلاحيات الحذف", "error");
+    return;
+  }
+    
+  if (!showConfirm("هل أنت متأكد من حذف الفاتورة رقم " + invoiceNo + "؟\n\nتحذير: سيتم حذف الفاتورة وملف PDF من جوجل درايف.")) return;
+    
+  try {
+    const payload = {
+      action: "delete_invoice",
+      invoice_no: invoiceNo,
+      phone_number: currentUser.phone_number
+    };
+      
+    const response = await postToGAS(payload);
+    if (response.status === "success") {
+      showMessage("✅ تم حذف الفاتورة بنجاح!", "success");
+      loadInvoices(); 
+    } else {
+      showMessage("⚠️ حدث خطأ أثناء الحذف: " + response.message, "error");
+    }
+  } catch (err) {
+    showMessage("❌ فشل الاتصال أثناء الحذف: " + err.message, "error");
+  }
+}
+</script>
+
+<div id="messageBox" style="position:fixed; top:20px; right:20px; z-index:9999; display:none;">
+  <div id="messageContent" style="padding:15px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); min-width:250px; max-width:400px; color:white;"></div>
+</div>
+
+<div id="confirmBox" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000; display:none; justify-content:center; align-items:center;">
+  <div style="background:white; padding:25px; border-radius:10px; width:90%; max-width:400px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.2);">
+    <h3 style="margin-top:0; color:#333;">تأكيد الإجراء</h3>
+    <p id="confirmText" style="color:#666; font-size:16px; margin:20px 0;"></p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button id="confirmYesBtn" style="background:#dc3545; width:auto; padding:8px 25px;">نعم</button>
+      <button onclick="closeConfirm()" style="background:#6c757d; width:auto; padding:8px 25px;">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showMessage(msg, type) {
+  const box = document.getElementById('messageBox');
+  const content = document.getElementById('messageContent');
+  content.textContent = msg;
+  content.style.backgroundColor = type === "error" ? "#dc3545" : "#28a745";
+  box.style.display = "block";
+  setTimeout(() => { box.style.display = "none"; }, 3000);
+}
+
+let confirmCallback = null;
+function showConfirm(text) {
+  return new Promise((resolve) => {
+    document.getElementById('confirmText').textContent = text;
+    document.getElementById('confirmBox').style.display = "flex";
+    document.getElementById('confirmYesBtn').onclick = () => {
+      closeConfirm();
+      resolve(true);
+    };
+    window.closeConfirm = () => {
+        document.getElementById('confirmBox').style.display = "none";
+        resolve(false);
+    };
+  });
+}
+window.closeConfirm = function() {
+    document.getElementById('confirmBox').style.display = "none";
+};
+</script>
+
+</body>
+</html>
+        </div>
+    </div>
+
+    <!-- نموذج تطبيق حجوزات الفنادق (ملء الشاشة) -->
+    <div id="hotelsApp" class="app-fullscreen">
+        <div class="app-toolbar">
+            <div class="toolbar-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="app-title">بدائل توافر الحجوزات</h2>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn refresh" onclick="refreshApp('hotels')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="app-content-full">
+          <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
@@ -177,5 +1399,244 @@ function renderOperators(list){
 }
 
 </script>
+</body>
+</html>
+                  </div>
+    </div>
+
+    <!-- نموذج تطبيق عروض رمضان (ملء الشاشة) -->
+    <div id="ramadanApp" class="app-fullscreen">
+        <div class="app-toolbar">
+            <div class="toolbar-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="app-title">عروض رمضان</h2>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn refresh" onclick="refreshApp('ramadan')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="app-content-full">
+            <!-- 
+            🚨 🚨 🚨 مكان لصق كود HTML الكامل لصفحة عروض رمضان 🚨 🚨 🚨
+            احذف المحتوى التجريبي وضع كودك الكامل هنا
+            -->
+            <div class="demo-content">
+                <i class="fas fa-moon"></i>
+                <h2>عروض رمضان</h2>
+                <p>هذا هو مكان كود HTML الكامل لصفحة عروض رمضان. يمكنك استبدال هذا المحتوى بكودك الخاص.</p>
+                <p>الصفحة تعمل بسلاسة مع جميع أنواع المحتوى في وضع ملء الشاشة.</p>
+                <button class="demo-btn" onclick="alert('تم اختيار العرض بنجاح!')">
+                    <i class="fas fa-shopping-cart"></i> اطلب الآن
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نموذج تطبيق إدارة العملاء (ملء الشاشة) -->
+    <div id="customersApp" class="app-fullscreen">
+        <div class="app-toolbar">
+            <div class="toolbar-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="app-title">إدارة العملاء</h2>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn refresh" onclick="refreshApp('customers')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="app-content-full">
+            <!-- 
+            🚨 🚨 🚨 مكان لصق كود HTML الكامل لصفحة إدارة العملاء 🚨 🚨 🚨
+            احذف المحتوى التجريبي وضع كودك الكامل هنا
+            -->
+            <div class="demo-content">
+                <i class="fas fa-users"></i>
+                <h2>إدارة العملاء</h2>
+                <p>هذا هو مكان كود HTML الكامل لصفحة إدارة العملاء. يمكنك لصق كودك الكامل مع جميع المكتبات التي يحتاجها.</p>
+                <p>الواجهة سلسة وسريعة حتى مع كمية كبيرة من البيانات.</p>
+                <button class="demo-btn" onclick="alert('تم إضافة عميل جديد بنجاح!')">
+                    <i class="fas fa-user-plus"></i> إضافة عميل
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نموذج تطبيق التقارير (ملء الشاشة) -->
+    <div id="reportsApp" class="app-fullscreen">
+        <div class="app-toolbar">
+            <div class="toolbar-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="app-title">التقارير</h2>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn refresh" onclick="refreshApp('reports')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="app-content-full">
+            <!-- 
+            🚨 🚨 🚨 مكان لصق كود HTML الكامل لصفحة التقارير 🚨 🚨 🚨
+            احذف المحتوى التجريبي وضع كودك الكامل هنا
+            -->
+            <div class="demo-content">
+                <i class="fas fa-chart-bar"></i>
+                <h2>التقارير</h2>
+                <p>هذا هو مكان كود HTML الكامل لصفحة التقارير. يمكنك استخدام أي مكتبات رسوم بيانية مثل Chart.js أو أي مكتبات أخرى.</p>
+                <p>الواجهة سريعة حتى مع المحتوى الثقيل والرسوم البيانية المعقدة.</p>
+                <button class="demo-btn" onclick="alert('تم إنشاء التقرير بنجاح!')">
+                    <i class="fas fa-file-download"></i> تنزيل التقرير
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نموذج تطبيق الإعدادات (ملء الشاشة) -->
+    <div id="settingsApp" class="app-fullscreen">
+        <div class="app-toolbar">
+            <div class="toolbar-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="app-title">الإعدادات</h2>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn refresh" onclick="refreshApp('settings')">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="app-content-full">
+            <!-- 
+            🚨 🚨 🚨 مكان لصق كود HTML الكامل لصفحة الإعدادات 🚨 🚨 🚨
+            احذف المحتوى التجريبي وضع كودك الكامل هنا
+            -->
+            <div class="demo-content">
+                <i class="fas fa-cog"></i>
+                <h2>الإعدادات</h2>
+                <p>هذا هو مكان كود HTML الكامل لصفحة الإعدادات. يمكنك لصق أي كود HTML كامل هنا.</p>
+                <p>النظام يحافظ على استقرار الأداء مع جميع التطبيقات في وضع ملء الشاشة.</p>
+                <button class="demo-btn" onclick="alert('تم حفظ الإعدادات بنجاح!')">
+                    <i class="fas fa-save"></i> حفظ الإعدادات
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('تم تحميل لوحة التحكم بنجاح');
+            
+            // النقر على الأيقونات في الشاشة الرئيسية
+            document.querySelectorAll('.app-tile').forEach(tile => {
+                tile.addEventListener('click', function() {
+                    const appId = this.getAttribute('data-app');
+                    openAppFullscreen(appId);
+                });
+            });
+            
+            // البحث عن التطبيقات
+            document.getElementById('appSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                filterApps(searchTerm);
+            });
+        });
+        
+        // فتح التطبيق في وضع ملء الشاشة
+        function openAppFullscreen(appId) {
+            // إخفاء الشاشة الرئيسية
+            document.getElementById('mainDashboard').style.display = 'none';
+            
+            // إظهار التطبيق المطلوب
+            const appElement = document.getElementById(`${appId}App`);
+            if (appElement) {
+                appElement.classList.add('active');
+                document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
+            }
+        }
+        
+        // العودة إلى الشاشة الرئيسية
+        function goBack() {
+            // إخفاء جميع التطبيقات
+            document.querySelectorAll('.app-fullscreen').forEach(app => {
+                app.classList.remove('active');
+            });
+            
+            // إظهار الشاشة الرئيسية
+            document.getElementById('mainDashboard').style.display = 'block';
+            document.body.style.overflow = 'auto'; // إعادة تمكين التمرير
+        }
+        
+        // تحديث التطبيق الحالي
+        function refreshApp(appId) {
+            const appElement = document.getElementById(`${appId}App`);
+            if (appElement) {
+                // يمكن هنا إعادة تحميل المحتوى أو تنفيذ أي إجراء تحديث
+                console.log(`جارٍ تحديث التطبيق: ${appId}`);
+                
+                // مثال على تحديث بسيط:
+                appElement.classList.remove('active');
+                setTimeout(() => {
+                    appElement.classList.add('active');
+                    alert(`✓ تم تحديث ${getAppName(appId)} بنجاح!`);
+                }, 300);
+            }
+        }
+        
+        // الحصول على اسم التطبيق
+        function getAppName(appId) {
+            const apps = {
+                'invoices': 'إدارة الفواتير',
+                'hotels': 'بدائل توافر الحجوزات',
+                'ramadan': 'عروض رمضان',
+                'customers': 'إدارة العملاء',
+                'reports': 'التقارير',
+                'settings': 'الإعدادات'
+            };
+            return apps[appId] || 'التطبيق';
+        }
+        
+        // تصفية التطبيقات في البحث
+        function filterApps(searchTerm) {
+            document.querySelectorAll('.app-tile').forEach(tile => {
+                const appName = tile.querySelector('.app-name').textContent.toLowerCase();
+                const appId = tile.getAttribute('data-app');
+                
+                if (searchTerm === '' || appName.includes(searchTerm) || appId.includes(searchTerm)) {
+                    tile.style.display = 'block';
+                    tile.style.opacity = '1';
+                } else {
+                    tile.style.display = 'none';
+                    tile.style.opacity = '0.5';
+                }
+            });
+        }
+        
+        // التعامل مع زر الرجوع في لوحة المفاتيح
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' || (e.key === 'Backspace' && !e.target.isContentEditable && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA')) {
+                if (document.querySelector('.app-fullscreen.active')) {
+                    goBack();
+                }
+            }
+        });
+        
+        // منع إغلاق الصفحة عن طريق الخطأ
+        window.addEventListener('beforeunload', function(e) {
+            if (document.querySelector('.app-fullscreen.active')) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
 </body>
 </html>
