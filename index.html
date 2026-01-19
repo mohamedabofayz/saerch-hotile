@@ -1420,7 +1420,7 @@ function renderOperators(list){
             </div>
         </div>
         <div class="app-content-full">
-           <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -1443,11 +1443,7 @@ function renderOperators(list){
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1477,360 +1473,102 @@ function renderOperators(list){
             border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .logo i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-        }
-
-        .logo h1 {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            color: var(--secondary-color);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .logo i { font-size: 2.5rem; color: var(--primary-color); }
+        .logo h1 { color: var(--primary-color); font-size: 2.5rem; font-weight: 700; }
+        .subtitle { color: var(--secondary-color); font-size: 1.3rem; margin-bottom: 15px; font-weight: 500; }
 
         .filter-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin: 20px 0;
-            padding: 15px;
+            display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+            margin: 20px 0; padding: 15px;
             background-color: rgba(30, 58, 138, 0.05);
             border-radius: var(--border-radius);
         }
 
-        .search-box {
-            position: relative;
-            width: 300px;
-            min-width: 250px;
-        }
-
-        .search-box i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-        }
-
+        .search-box { position: relative; width: 300px; min-width: 250px; }
+        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
         #search-input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
-            border: 2px solid #cbd5e1;
-            border-radius: 50px;
-            font-size: 16px;
-            font-family: 'Cairo', sans-serif;
-            transition: var(--transition);
+            width: 100%; padding: 12px 45px 12px 15px;
+            border: 2px solid #cbd5e1; border-radius: 50px;
+            font-size: 16px; font-family: 'Cairo', sans-serif; transition: var(--transition);
         }
+        #search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2); outline: none; }
 
-        #search-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2);
-            outline: none;
-        }
-
-        .filters {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
+        .filters { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
         #sort-select {
-            padding: 10px 20px;
-            border: 2px solid #cbd5e1;
-            border-radius: 50px;
-            font-size: 16px;
-            font-family: 'Cairo', sans-serif;
-            background-color: white;
-            transition: var(--transition);
-            min-width: 200px;
-        }
-
-        #sort-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2);
-            outline: none;
+            padding: 10px 20px; border: 2px solid #cbd5e1;
+            border-radius: 50px; font-size: 16px; font-family: 'Cairo', sans-serif;
+            background-color: white; transition: var(--transition); min-width: 200px;
         }
 
         .loading {
-            text-align: center;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            text-align: center; padding: 40px 20px; display: flex;
+            flex-direction: column; align-items: center; justify-content: center; gap: 15px;
         }
-
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(30, 58, 138, 0.2);
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
+            width: 50px; height: 50px; border: 5px solid rgba(30, 58, 138, 0.2);
+            border-top: 5px solid var(--primary-color); border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading p {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .error-container {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: rgba(239, 68, 68, 0.05);
-            border-radius: var(--border-radius);
-            margin: 20px 0;
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            text-align: center; padding: 40px 20px; background-color: rgba(239, 68, 68, 0.05);
+            border-radius: var(--border-radius); margin: 20px 0; border: 1px solid rgba(239, 68, 68, 0.2); display: none;
         }
-
-        .error-container i {
-            font-size: 3rem;
-            color: var(--danger-color);
-        }
-
-        .error-container h3 {
-            color: var(--danger-color);
-            font-size: 1.5rem;
-            margin: 15px 0;
-        }
-
-        .error-container p {
-            color: #64748b;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .script-error {
-            background-color: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin: 20px 0;
-            direction: ltr;
-            text-align: left;
-            font-family: monospace;
-            overflow-x: auto;
-        }
-
-        .fix-btn {
-            background: linear-gradient(120deg, var(--accent-color), #d97706);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .fix-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .error-container i { font-size: 3rem; color: var(--danger-color); }
+        .retry-btn {
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            color: white; border: none; padding: 10px 25px; border-radius: 50px;
+            font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px;
+            display: inline-flex; align-items: center; gap: 8px;
         }
 
         .table-container {
-            overflow-x: auto;
-            margin-bottom: 30px;
+            overflow-x: auto; margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-radius: var(--border-radius);
-            display: none; /* مخفية حتى يتم تحميل البيانات */
+            border-radius: var(--border-radius); display: none;
         }
 
-        #hotels-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 900px;
-            font-size: 0.95rem;
-            table-layout: auto;
-        }
-
+        #hotels-table { width: 100%; border-collapse: collapse; min-width: 900px; font-size: 0.95rem; }
         #hotels-table th {
             background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-align: center;
-            padding: 16px 12px;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            text-transform: uppercase;
-            font-size: 0.9rem;
+            color: white; text-align: center; padding: 16px 12px; font-weight: 600;
+            position: sticky; top: 0; z-index: 10;
         }
+        #hotels-table td { padding: 14px 12px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+        #hotels-table tr:nth-child(even) { background-color: #f8fafc; }
+        #hotels-table tr:hover { background-color: #dbeafe; }
 
-        #hotels-table td {
-            padding: 14px 12px;
-            text-align: center;
-            border-bottom: 1px solid #e2e8f0;
-            transition: var(--transition);
-        }
-
-        #hotels-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
-        #hotels-table tr:hover {
-            background-color: #dbeafe;
-            transform: translateY(-1px);
-        }
-
-        .new-hotel {
-            position: relative;
-            background-color: rgba(245, 158, 11, 0.08) !important;
-        }
-
-        .new-hotel::after {
-            content: "جديد";
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            background-color: var(--accent-color);
-            color: white;
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 15px;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transform: rotate(-15deg);
-        }
-
-        .price {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.05rem;
-        }
-
-        .not-available {
-            color: var(--danger-color);
-            font-style: italic;
-        }
-
+        .new-hotel { background-color: rgba(245, 158, 11, 0.08) !important; position: relative; }
+        .price { font-weight: 700; color: var(--primary-color); font-size: 1.05rem; }
+        .not-available { color: var(--danger-color); font-style: italic; }
         .number-badge {
-            display: inline-block;
-            width: 26px;
-            height: 26px;
-            background-color: #94a3b8;
-            color: white;
-            border-radius: 50%;
-            font-size: 0.85rem;
-            font-weight: 600;
-            line-height: 26px;
-            margin: 0 auto;
+            display: inline-block; width: 26px; height: 26px; background-color: #94a3b8;
+            color: white; border-radius: 50%; font-size: 0.85rem; font-weight: 600;
+            line-height: 26px; margin: 0 auto;
         }
 
-        footer {
-            text-align: center;
-            padding: 25px 15px;
-            color: #64748b;
-            border-top: 1px solid #e2e8f0;
-            font-size: 0.95rem;
-            margin-top: 20px;
+        /* تنسيقات التصفح (Pagination Styles) */
+        .pagination-container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 0; margin-top: 10px; border-top: 1px solid #e2e8f0;
+            flex-wrap: wrap; gap: 15px;
         }
-
-        .retry-btn {
-            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        .pagination-info { color: #64748b; font-size: 0.9rem; }
+        .pagination-controls { display: flex; gap: 5px; align-items: center; }
+        .page-btn {
+            padding: 8px 16px; border: 1px solid #cbd5e1; background: white;
+            border-radius: 8px; cursor: pointer; color: var(--primary-color);
+            transition: all 0.2s; font-family: 'Cairo', sans-serif;
         }
-
-        .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        .page-btn:hover:not(:disabled) { background-color: var(--primary-color); color: white; }
+        .page-btn.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .page-btn:disabled { background-color: #f1f5f9; color: #cbd5e1; cursor: not-allowed; }
 
         @media (max-width: 768px) {
-            .filter-section {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-box {
-                width: 100%;
-            }
-            
-            .filters {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            #sort-select {
-                width: 100%;
-                min-width: auto;
-            }
-            
-            .logo h1 {
-                font-size: 2rem;
-            }
-            
-            .logo i {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 1.7rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            #hotels-table th, #hotels-table td {
-                padding: 10px 8px;
-                font-size: 0.85rem;
-            }
-            
-            .number-badge {
-                width: 22px;
-                height: 22px;
-                line-height: 22px;
-                font-size: 0.75rem;
-            }
-            
-            .new-hotel::after {
-                font-size: 0.65rem;
-                padding: 2px 6px;
-            }
+            .filter-section, .pagination-container { flex-direction: column; }
+            .search-box, #sort-select { width: 100%; }
         }
     </style>
 </head>
@@ -1846,12 +1584,12 @@ function renderOperators(list){
             <div class="filter-section">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="search-input" placeholder="ابحث عن فندق..." aria-label="بحث عن فندق">
+                    <input type="text" id="search-input" placeholder="ابحث باسم الفندق..." aria-label="بحث عن فندق">
                 </div>
                 
                 <div class="filters">
                     <select id="sort-select">
-                        <option value="default">ترتيب حسب</option>
+                        <option value="default">الترتيب الافتراضي</option>
                         <option value="name-asc">الاسم (أ-ي)</option>
                         <option value="name-desc">الاسم (ي-أ)</option>
                         <option value="price-low">السعر (من الأقل)</option>
@@ -1863,14 +1601,13 @@ function renderOperators(list){
         
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p>جاري تحميل عروض الفنادق من Google Sheets...</p>
+            <p>جاري تحميل البيانات...</p>
         </div>
         
-        <div class="error-container" id="error-container" style="display: none;">
+        <div class="error-container" id="error-container">
             <i class="fas fa-exclamation-triangle"></i>
             <h3>فشل في تحميل البيانات</h3>
-            <p id="error-message">تعذر الاتصال بمصدر البيانات. قد يكون الرابط غير صحيح أو هناك مشكلة في الخدمة.</p>
-            <div class="script-error" id="script-error" style="display: none;"></div>
+            <p id="error-message">تعذر الاتصال.</p>
             <button class="retry-btn" id="retry-btn">
                 <i class="fas fa-redo"></i> إعادة المحاولة
             </button>
@@ -1880,7 +1617,7 @@ function renderOperators(list){
             <table id="hotels-table">
                 <thead>
                     <tr>
-                        <th>مميز</th>
+                        <th>#</th>
                         <th>اسم الفندق</th>
                         <th>تفاصيل الغرفة/الفترة</th>
                         <th>كامل الشهر</th>
@@ -1890,14 +1627,18 @@ function renderOperators(list){
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    <!-- سيتم ملء البيانات هنا من Google Script -->
-                </tbody>
+                    </tbody>
             </table>
+        </div>
+
+        <div class="pagination-container" id="pagination-container" style="display: none;">
+            <div class="pagination-info" id="pagination-info">عرض 0-0 من أصل 0</div>
+            <div class="pagination-controls" id="pagination-controls">
+                </div>
         </div>
         
         <footer>
             <p>&copy; 2026 جميع الحقوق محفوظة - عروض فنادق رمضان</p>
-        
         </footer>
     </div>
     
@@ -1905,256 +1646,219 @@ function renderOperators(list){
     document.addEventListener('DOMContentLoaded', function() {
         const API_URL = 'https://script.google.com/macros/s/AKfycbyjrm0ppXjTN6lyGIouBvbAKWSBctDK5elr4rPWb2SxTg0YQB3rmtSBXqDZ2ocJ85db0g/exec';
         
+        let allHotelsData = [];
+        let filteredHotels = [];
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
         const tableBody = document.getElementById('table-body');
         const loadingElement = document.getElementById('loading');
         const errorContainer = document.getElementById('error-container');
-        const errorMessageElement = document.getElementById('error-message');
-        const scriptErrorElement = document.getElementById('script-error');
         const tableContainer = document.getElementById('table-container');
-        const retryBtn = document.getElementById('retry-btn');
+        const paginationContainer = document.getElementById('pagination-container');
+        const paginationInfo = document.getElementById('pagination-info');
+        const paginationControls = document.getElementById('pagination-controls');
+        
         const searchInput = document.getElementById('search-input');
         const sortSelect = document.getElementById('sort-select');
+        const retryBtn = document.getElementById('retry-btn');
         
-        // تحميل البيانات عند التحميل الأولي
         loadHotelsData();
         
-        // دالة تحميل البيانات
         async function loadHotelsData() {
             try {
-                loadingElement.style.display = 'flex';
-                errorContainer.style.display = 'none';
-                tableContainer.style.display = 'none';
-                scriptErrorElement.style.display = 'none';
-                
-                // استخدام proxy للتغلب على مشكلة CORS
+                showLoading(true);
                 const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
+                const response = await fetch(proxyUrl);
                 
-                const response = await fetch(proxyUrl, {
-                    mode: 'cors',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
+                if (!response.ok) throw new Error('فشل الاتصال بالخادم');
                 
-                if (!response.ok) {
-                    // محاولة قراءة النص حتى لو كان الخطأ HTML
-                    const text = await response.text();
-                    
-                    // التحقق إذا كان الرد يحتوي على خطأ Google Apps Script
-                    if (text.includes('Google Apps Script') && text.includes('TypeError')) {
-                        throw new Error('خطأ في Google Apps Script - يرجى تحديث الكود');
-                    }
-                    
-                    throw new Error(`فشل في الطلب: ${response.status} ${response.statusText}`);
-                }
+                const jsonResponse = await response.json();
                 
-                const text = await response.text();
-                let data;
-                
-                try {
-                    data = JSON.parse(text);
-                    
-                    // التحقق من هيكل البيانات
-                    if (data.success && Array.isArray(data.data)) {
-                        displayHotels(data.data);
-                    } else if (Array.isArray(data)) {
-                        displayHotels(data);
-                    } else {
-                        throw new Error('هيكل البيانات غير صحيح');
-                    }
-                    
-                } catch (e) {
-                    // إذا لم يكن JSON صالحاً، تحقق إذا كان HTML خطأ
-                    if (text.includes('<html') || text.includes('<!DOCTYPE html>')) {
-                        throw new Error('تم استقبال صفحة خطأ من Google Apps Script');
-                    }
-                    throw new Error('البيانات المستلمة ليست بتنسيق JSON صحيح');
-                }
-                
-            } catch (error) {
-                console.error('خطأ:', error);
-                handleScriptError(error, text);
-            } finally {
-                loadingElement.style.display = 'none';
-            }
-        }
-        
-        // معالجة أخطاء Google Apps Script
-        function handleScriptError(error, responseText) {
-            errorContainer.style.display = 'block';
-            tableContainer.style.display = 'none';
-            
-            if (responseText && (responseText.includes('<html') || responseText.includes('<!DOCTYPE html>'))) {
-                // استخراج رسالة الخطأ من HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(responseText, 'text/html');
-                const errorDiv = doc.querySelector('div[style*="text-align:center"]');
-                
-                if (errorDiv) {
-                    errorMessageElement.textContent = 'خطأ في Google Apps Script:';
-                    scriptErrorElement.innerHTML = `<strong>الرسالة:</strong> ${errorDiv.textContent.trim()}`;
-                    scriptErrorElement.style.display = 'block';
+                let data = [];
+                if (jsonResponse.success && Array.isArray(jsonResponse.data)) {
+                    data = jsonResponse.data;
+                } else if (Array.isArray(jsonResponse)) {
+                    data = jsonResponse;
                 } else {
-                    errorMessageElement.textContent = 'تم استقبال صفحة خطأ من Google Apps Script';
+                    throw new Error('تنسيق البيانات غير صحيح');
                 }
-            } else if (error.message.includes('Google Apps Script')) {
-                errorMessageElement.textContent = 'خطأ في Google Apps Script - يرجى تحديث الكود';
-                scriptErrorElement.innerHTML = `
-                    <p><strong>الحل:</strong> يجب تحديث كود Google Apps Script ليتوافق مع واجهة برمجة التطبيقات الصحيحة.</p>
-                    <p><strong>الخطأ الشائع:</strong> استخدام الدالة .setHeaders() التي لم تعد متوفرة في الإصدارات الحديثة.</p>
-                    <button class="fix-btn" onclick="showFixedCode()">
-                        <i class="fas fa-code"></i> عرض الكود الصحيح
-                    </button>
-                `;
-                scriptErrorElement.style.display = 'block';
-            } else {
-                errorMessageElement.textContent = error.message || 'فشل في تحميل البيانات';
+
+                allHotelsData = data;
+                filteredHotels = [...allHotelsData];
+                
+                applyFilters();
+
+            } catch (error) {
+                console.error(error);
+                showError(error.message);
+            } finally {
+                showLoading(false);
             }
         }
-        
-        // عرض الكود الصحيح
-        function showFixedCode() {
-            scriptErrorElement.innerHTML = `
-                <p style="margin-bottom: 15px;"><strong>كود Google Apps Script الصحيح:</strong></p>
-                <pre style="background-color: #1e293b; color: #f8fafc; padding: 20px; border-radius: 8px; overflow-x: auto; direction: ltr; text-align: left; font-family: 'Courier New', monospace; font-size: 14px;">
-function doGet(request) {
-  var sheetName = "ورقة1";
-  
-  try {
-    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = spreadsheet.getSheetByName(sheetName);
-    var data = sheet.getDataRange().getValues();
-    var headers = data[0];
-    var jsonData = [];
-    
-    for (var i = 1; i < data.length; i++) {
-      var row = data[i];
-      if (!row[1] || row[1].toString().trim() === "") continue;
-      
-      var obj = {};
-      for (var j = 0; j < headers.length && j < row.length; j++) {
-        var header = headers[j].toString().trim();
-        var value = row[j] ? row[j].toString().trim() : "-";
-        value = value.replace(/\\n/g, ' ').replace(/\\r/g, ' ').replace(/\\s+/g, ' ');
-        obj[header] = value;
-      }
-      jsonData.push(obj);
-    }
-    
-    var output = ContentService.createTextOutput();
-    output.setContent(JSON.stringify({
-      success: true,
-      timestamp: new Date(),
-      count: jsonData.length,
-      data: jsonData
-    }));
-    output.setMimeType(ContentService.MimeType.JSON);
-    
-    return output;
-    
-  } catch (error) {
-    var output = ContentService.createTextOutput();
-    output.setContent(JSON.stringify({
-      success: false,
-      error: error.toString(),
-      timestamp: new Date(),
-      message: "فشل في تحميل البيانات من جوجل شيت"
-    }));
-    output.setMimeType(ContentService.MimeType.JSON);
-    
-    return output;
-  }
-}</pre>
-                <p style="margin-top: 15px; color: #fbbf24;">
-                    <i class="fas fa-info-circle"></i> <strong>ملاحظة:</strong> يجب نسخ هذا الكود واستبداله في Google Apps Script ثم إعادة النشر
-                </p>
-            `;
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const sortValue = sortSelect.value;
+
+            // التصفية
+            filteredHotels = allHotelsData.filter(hotel => {
+                const name = (hotel["اسم الفندق"] || "").toLowerCase();
+                const details = (hotel["تفاصيل الغرفة/الفترة"] || "").toLowerCase();
+                return name.includes(searchTerm) || details.includes(searchTerm);
+            });
+
+            // الترتيب - تم تحديث أسماء المفاتيح هنا لتشمل كلمة "سعر"
+            filteredHotels.sort((a, b) => {
+                const nameA = (a["اسم الفندق"] || "").toLowerCase();
+                const nameB = (b["اسم الفندق"] || "").toLowerCase();
+                
+                // استخدام المفتاح الصحيح للسعر
+                const priceA = parsePrice(a["سعر كامل الشهر (أو المدة المحددة)"]);
+                const priceB = parsePrice(b["سعر كامل الشهر (أو المدة المحددة)"]);
+
+                switch (sortValue) {
+                    case 'name-asc': return nameA.localeCompare(nameB, 'ar');
+                    case 'name-desc': return nameB.localeCompare(nameA, 'ar');
+                    case 'price-low': return priceA - priceB;
+                    case 'price-high': return priceB - priceA;
+                    default: return 0;
+                }
+            });
+
+            currentPage = 1;
+            renderTable();
         }
-        
-        // دالة عرض البيانات
-        function displayHotels(hotels) {
-            if (hotels.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 30px; font-size: 1.2rem;">
-                            <i class="fas fa-search"></i> لم يتم العثور على فنادق
-                        </td>
-                    </tr>
-                `;
-                tableContainer.style.display = 'block';
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            
+            if (filteredHotels.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="7" style="padding:30px">لا توجد نتائج مطابقة للبحث</td></tr>`;
+                paginationContainer.style.display = 'none';
                 return;
             }
-            
-            tableBody.innerHTML = hotels.map(hotel => {
-                const isNewHotel = hotel["مميز"] && (hotel["مميز"].includes("جديد") || hotel["مميز"].includes("new"));
-                const isNumbered = hotel["مميز"] && !isNaN(parseInt(hotel["مميز"])) && hotel["مميز"].trim() !== "";
-                const cssClass = isNewHotel ? 'class="new-hotel"' : '';
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredHotels.length);
+            const pageData = filteredHotels.slice(startIndex, endIndex);
+
+            pageData.forEach(hotel => {
+                const isNew = hotel["مميز"] && (hotel["مميز"].toString().includes("جديد") || hotel["مميز"].toString().includes("new"));
+                const badge = isNew 
+                    ? `<span style="color:var(--accent-color);font-weight:bold"><i class="fas fa-star"></i></span>` 
+                    : (hotel["مميز"] || '-');
                 
-                let badge = '<span>-</span>';
-                if (isNewHotel) {
-                    badge = `<span class="badge" style="color: var(--accent-color); font-weight: bold;"><i class="fas fa-star"></i> جديد</span>`;
-                } else if (isNumbered) {
-                    badge = `<span class="number-badge">${hotel["مميز"]}</span>`;
-                }
-                
-                return `
-                    <tr ${cssClass}>
+                // هنا التغيير المهم: استخدام أسماء الأعمدة الصحيحة كما في ملف JSON
+                const fullMonth = hotel["سعر كامل الشهر (أو المدة المحددة)"];
+                const first10 = hotel["سعر العشر الأوائل"];
+                const mid10 = hotel["سعر العشر الوسطى"];
+                const last10 = hotel["سعر العشر الأواخر"];
+
+                const row = `
+                    <tr ${isNew ? 'class="new-hotel"' : ''}>
                         <td>${badge}</td>
-                        <td><strong>${hotel["اسم الفندق"] || 'غير محدد'}</strong></td>
-                        <td>${hotel["تفاصيل الغرفة/الفترة"] || 'غير محدد'}</td>
-                        <td class="${getPriceClass(hotel["كامل الشهر (أو المدة المحددة)"])}">${formatPrice(hotel["كامل الشهر (أو المدة المحددة)"])}</td>
-                        <td class="${getPriceClass(hotel["العشر الأوائل"])}">${formatPrice(hotel["العشر الأوائل"])}</td>
-                        <td class="${getPriceClass(hotel["العشر الوسطى"])}">${formatPrice(hotel["العشر الوسطى"])}</td>
-                        <td class="${getPriceClass(hotel["العشر الأواخر"])}">${formatPrice(hotel["العشر الأواخر"])}</td>
+                        <td><strong>${hotel["اسم الفندق"] || '-'}</strong></td>
+                        <td>${hotel["تفاصيل الغرفة/الفترة"] || '-'}</td>
+                        <td class="${getPriceClass(fullMonth)}">${formatPrice(fullMonth)}</td>
+                        <td class="${getPriceClass(first10)}">${formatPrice(first10)}</td>
+                        <td class="${getPriceClass(mid10)}">${formatPrice(mid10)}</td>
+                        <td class="${getPriceClass(last10)}">${formatPrice(last10)}</td>
                     </tr>
                 `;
-            }).join('');
-            
+                tableBody.innerHTML += row;
+            });
+
+            renderPagination(startIndex + 1, endIndex, filteredHotels.length);
             tableContainer.style.display = 'block';
+            paginationContainer.style.display = 'flex';
         }
-        
-        // دوال مساعدة
+
+        function renderPagination(start, end, total) {
+            paginationInfo.textContent = `عرض ${start}-${end} من أصل ${total}`;
+            paginationControls.innerHTML = '';
+            
+            const totalPages = Math.ceil(total / rowsPerPage);
+            
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; renderTable(); };
+            paginationControls.appendChild(prevBtn);
+
+            let pagesToShow = [];
+            if (totalPages <= 5) {
+                pagesToShow = Array.from({length: totalPages}, (_, i) => i + 1);
+            } else {
+                if (currentPage <= 3) pagesToShow = [1, 2, 3, 4, '...', totalPages];
+                else if (currentPage >= totalPages - 2) pagesToShow = [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+                else pagesToShow = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+            }
+
+            pagesToShow.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${p === currentPage ? 'active' : ''}`;
+                btn.textContent = p;
+                if (p === '...') {
+                    btn.disabled = true;
+                } else {
+                    btn.onclick = () => { currentPage = p; renderTable(); };
+                }
+                paginationControls.appendChild(btn);
+            });
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { currentPage++; renderTable(); };
+            paginationControls.appendChild(nextBtn);
+        }
+
+        function parsePrice(priceStr) {
+            if (!priceStr) return 99999999;
+            // إزالة الفواصل إذا كانت موجودة (مثال: 3,360 تصبح 3360)
+            let clean = priceStr.toString().replace(/,/g, '').replace(/[^\d.]/g, '');
+            return parseFloat(clean) || 99999999;
+        }
+
         function formatPrice(price) {
-            if (!price || price === "غير متاح" || price === "-" || price.trim() === "-") {
-                return "غير متاح";
+            if (!price || price == "-" || price == "غير متاح") return "غير متاح";
+            // التحقق مما إذا كان الرقم يحتوي على فواصل بالفعل
+            if (typeof price === 'string' && price.includes(',')) {
+                 return price + " ريال";
             }
-            
-            let cleanedPrice = price.toString().replace(/[^\d.,]/g, '');
-            if (cleanedPrice === '') return price;
-            
-            cleanedPrice = cleanedPrice.replace(/,/g, '');
-            const num = parseFloat(cleanedPrice);
-            if (isNaN(num)) {
-                return price;
-            }
-            
-            return `${num.toLocaleString('ar-EG')} ريال`;
+            if (!isNaN(parseFloat(price))) return parseFloat(price).toLocaleString('ar-SA') + " ريال";
+            return price;
         }
         
         function getPriceClass(price) {
-            if (!price || price === "غير متاح" || price === "-" || price.trim() === "-") {
-                return 'not-available';
+            return (!price || price == "-" || price == "غير متاح") ? 'not-available' : 'price';
+        }
+
+        function showLoading(isLoading) {
+            loadingElement.style.display = isLoading ? 'flex' : 'none';
+            if (isLoading) {
+                tableContainer.style.display = 'none';
+                errorContainer.style.display = 'none';
             }
-            return 'price';
         }
-        
-        // دوال البحث والفرز
-        function filterHotels() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const sortBy = sortSelect.value;
-            
-            // إعادة تحميل البيانات وتطبيق الفلاتر
-            loadHotelsData();
+
+        function showError(msg) {
+            errorContainer.style.display = 'block';
+            document.getElementById('error-message').textContent = msg;
+            loadingElement.style.display = 'none';
         }
-        
-        // Listeners
-        searchInput.addEventListener('input', filterHotels);
-        sortSelect.addEventListener('change', filterHotels);
+
+        searchInput.addEventListener('input', applyFilters);
+        sortSelect.addEventListener('change', applyFilters);
         retryBtn.addEventListener('click', loadHotelsData);
     });
     </script>
 </body>
 </html>
+
         </div>
     </div>
 
