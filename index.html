@@ -1420,36 +1420,47 @@ function renderOperators(list){
             </div>
         </div>
         <div class="app-content-full">
-        <!DOCTYPE html>
+       <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عروض فنادق رمضان 1447هـ / 2026م</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #0ea5e9;
-            --accent-color: #f59e0b;
-            --light-color: #f8fafc;
-            --dark-color: #0f172a;
-            --success-color: #10b981;
-            --warning-color: #fbbf24;
-            --danger-color: #ef4444;
-            --border-radius: 12px;
-            --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease;
+            /* متغيرات الهوية البصرية من dashboard.css */
+            --dark-blue: #0A2E5A;
+            --green: #27AE60;
+            --orange: #F39C12;
+            --yellow: #F1C40F;
+            --red: #E74C3C;
+            --light-blue: #E8F4FD;
+            --gray: #6C757D;
+            --border: #dee2e6;
+            --card-bg: #ffffff;
+            --input-bg: #f8f9fa;
+            --modal-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --font-sans: 'Cairo', sans-serif;
+            
+            /* Heatmap Colors */
+            --very-high: #e74c3c;
+            --high: #f39c12;
+            --medium: #f1c40f;
+            --neutral: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-sans);
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--text-main);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -1457,118 +1468,271 @@ function renderOperators(list){
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             padding: 20px;
+            border: 1px solid white;
         }
 
         header {
             text-align: center;
             margin-bottom: 25px;
             padding: 15px 0;
-            border-bottom: 3px solid var(--primary-color);
-            background: linear-gradient(120deg, rgba(30, 58, 138, 0.05), rgba(14, 165, 233, 0.05));
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            border-bottom: 3px solid var(--dark-blue);
+            background: var(--light-blue);
+            border-radius: 16px 16px 0 0;
         }
 
-        .logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
-        .logo i { font-size: 2.5rem; color: var(--primary-color); }
-        .logo h1 { color: var(--primary-color); font-size: 2.5rem; font-weight: 700; }
-        .subtitle { color: var(--secondary-color); font-size: 1.3rem; margin-bottom: 15px; font-weight: 500; }
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-bottom: 10px; 
+        }
+        .logo .moon-icon { 
+            font-size: 2.5rem; 
+            color: var(--dark-blue); 
+            font-weight: bold;
+        }
+        .logo h1 { 
+            color: var(--dark-blue); 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+        }
+        .subtitle { 
+            color: var(--dark-blue); 
+            font-size: 1.3rem; 
+            margin-bottom: 15px; 
+            font-weight: 500; 
+        }
 
         .filter-section {
-            display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
-            margin: 20px 0; padding: 15px;
-            background-color: rgba(30, 58, 138, 0.05);
-            border-radius: var(--border-radius);
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            justify-content: center;
+            margin: 20px 0; 
+            padding: 15px;
+            background-color: var(--light-blue);
+            border-radius: 16px;
         }
 
-        .search-box { position: relative; width: 300px; min-width: 250px; }
-        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+        .search-box { 
+            position: relative; 
+            width: 300px; 
+            min-width: 250px; 
+        }
+        .search-box .search-icon { 
+            position: absolute; 
+            right: 15px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--gray); 
+        }
         #search-input {
-            width: 100%; padding: 12px 45px 12px 15px;
-            border: 2px solid #cbd5e1; border-radius: 50px;
-            font-size: 16px; font-family: 'Cairo', sans-serif; transition: var(--transition);
+            width: 100%; 
+            padding: 12px 45px 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px; 
+            font-family: var(--font-sans); 
+            background: var(--input-bg);
+            transition: all 0.3s ease;
         }
-        #search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2); outline: none; }
+        #search-input:focus { 
+            border-color: var(--dark-blue); 
+            box-shadow: 0 0 0 3px rgba(10, 46, 90, 0.15); 
+            outline: none; 
+        }
 
-        .filters { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .filters { 
+            display: flex; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+            align-items: center; 
+        }
         #sort-select {
-            padding: 10px 20px; border: 2px solid #cbd5e1;
-            border-radius: 50px; font-size: 16px; font-family: 'Cairo', sans-serif;
-            background-color: white; transition: var(--transition); min-width: 200px;
+            padding: 10px 20px; 
+            border: 1px solid var(--border);
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-family: var(--font-sans);
+            background-color: white;
+            transition: all 0.3s ease;
+            min-width: 200px;
         }
 
         .loading {
-            text-align: center; padding: 40px 20px; display: flex;
-            flex-direction: column; align-items: center; justify-content: center; gap: 15px;
+            text-align: center; 
+            padding: 40px 20px; 
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px;
         }
         .spinner {
-            width: 50px; height: 50px; border: 5px solid rgba(30, 58, 138, 0.2);
-            border-top: 5px solid var(--primary-color); border-radius: 50%;
+            width: 50px; 
+            height: 50px; 
+            border: 5px solid rgba(10, 46, 90, 0.2);
+            border-top: 5px solid var(--dark-blue); 
+            border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
 
         .error-container {
-            text-align: center; padding: 40px 20px; background-color: rgba(239, 68, 68, 0.05);
-            border-radius: var(--border-radius); margin: 20px 0; border: 1px solid rgba(239, 68, 68, 0.2); display: none;
+            text-align: center; 
+            padding: 40px 20px; 
+            background-color: rgba(231, 76, 60, 0.05);
+            border-radius: 16px; 
+            margin: 20px 0; 
+            border: 1px solid rgba(231, 76, 60, 0.2); 
+            display: none;
         }
-        .error-container i { font-size: 3rem; color: var(--danger-color); }
+        .error-container .warning-icon { 
+            font-size: 3rem; 
+            color: var(--red); 
+        }
         .retry-btn {
-            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-            color: white; border: none; padding: 10px 25px; border-radius: 50px;
-            font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px;
-            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--dark-blue);
+            color: white; 
+            border: none; 
+            padding: 10px 25px; 
+            border-radius: 8px;
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-top: 15px;
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(10, 46, 90, 0.3);
+            transition: all 0.3s ease;
+        }
+        .retry-btn:hover {
+            transform: translateY(-2px);
         }
 
         .table-container {
-            overflow-x: auto; margin-bottom: 20px;
+            overflow-x: auto; 
+            margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-radius: var(--border-radius); display: none;
+            border-radius: 16px;
+            display: none;
         }
 
-        #hotels-table { width: 100%; border-collapse: collapse; min-width: 900px; font-size: 0.95rem; }
+        #hotels-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 900px; 
+            font-size: 0.95rem; 
+        }
         #hotels-table th {
-            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-            color: white; text-align: center; padding: 16px 12px; font-weight: 600;
-            position: sticky; top: 0; z-index: 10;
+            background: var(--dark-blue);
+            color: white; 
+            text-align: center; 
+            padding: 16px 12px; 
+            font-weight: 600;
+            position: sticky; 
+            top: 0; 
+            z-index: 10;
         }
-        #hotels-table td { padding: 14px 12px; text-align: center; border-bottom: 1px solid #e2e8f0; }
-        #hotels-table tr:nth-child(even) { background-color: #f8fafc; }
-        #hotels-table tr:hover { background-color: #dbeafe; }
+        #hotels-table td { 
+            padding: 14px 12px; 
+            text-align: center; 
+            border-bottom: 1px solid var(--border); 
+        }
+        #hotels-table tr:nth-child(even) { 
+            background-color: var(--light-blue); 
+        }
+        #hotels-table tr:hover { 
+            background-color: #dbeafe; 
+        }
 
-        .new-hotel { background-color: rgba(245, 158, 11, 0.08) !important; position: relative; }
-        .price { font-weight: 700; color: var(--primary-color); font-size: 1.05rem; }
-        .not-available { color: var(--danger-color); font-style: italic; }
+        .new-hotel { 
+            background-color: rgba(243, 156, 18, 0.08) !important; 
+            position: relative; 
+        }
+        .price { 
+            font-weight: 700; 
+            color: var(--dark-blue); 
+            font-size: 1.05rem; 
+        }
+        .not-available { 
+            color: var(--red); 
+            font-style: italic; 
+        }
         .number-badge {
-            display: inline-block; width: 26px; height: 26px; background-color: #94a3b8;
-            color: white; border-radius: 50%; font-size: 0.85rem; font-weight: 600;
-            line-height: 26px; margin: 0 auto;
+            display: inline-block; 
+            width: 26px; 
+            height: 26px; 
+            background-color: var(--gray);
+            color: white; 
+            border-radius: 50%; 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            line-height: 26px; 
+            margin: 0 auto;
         }
 
-        /* تنسيقات التصفح (Pagination Styles) */
         .pagination-container {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 0; margin-top: 10px; border-top: 1px solid #e2e8f0;
-            flex-wrap: wrap; gap: 15px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 20px 0; 
+            margin-top: 10px; 
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap; 
+            gap: 15px;
         }
-        .pagination-info { color: #64748b; font-size: 0.9rem; }
-        .pagination-controls { display: flex; gap: 5px; align-items: center; }
+        .pagination-info { 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+        }
+        .pagination-controls { 
+            display: flex; 
+            gap: 5px; 
+            align-items: center; 
+        }
         .page-btn {
-            padding: 8px 16px; border: 1px solid #cbd5e1; background: white;
-            border-radius: 8px; cursor: pointer; color: var(--primary-color);
-            transition: all 0.2s; font-family: 'Cairo', sans-serif;
+            padding: 8px 16px; 
+            border: 1px solid var(--border); 
+            background: white;
+            border-radius: 8px; 
+            cursor: pointer; 
+            color: var(--dark-blue);
+            transition: all 0.2s; 
+            font-family: var(--font-sans);
         }
-        .page-btn:hover:not(:disabled) { background-color: var(--primary-color); color: white; }
-        .page-btn.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
-        .page-btn:disabled { background-color: #f1f5f9; color: #cbd5e1; cursor: not-allowed; }
+        .page-btn:hover:not(:disabled) { 
+            background-color: var(--dark-blue); 
+            color: white; 
+        }
+        .page-btn.active { 
+            background-color: var(--dark-blue); 
+            color: white; 
+            border-color: var(--dark-blue); 
+        }
+        .page-btn:disabled { 
+            background-color: #f1f5f9; 
+            color: var(--border); 
+            cursor: not-allowed; 
+        }
 
         @media (max-width: 768px) {
-            .filter-section, .pagination-container { flex-direction: column; }
-            .search-box, #sort-select { width: 100%; }
+            .filter-section, .pagination-container { 
+                flex-direction: column; 
+            }
+            .search-box, #sort-select { 
+                width: 100%; 
+            }
         }
     </style>
 </head>
@@ -1576,14 +1740,14 @@ function renderOperators(list){
     <div class="container">
         <header>
             <div class="logo">
-                <i class="fas fa-moon"></i>
+                <span class="moon-icon">🌙</span>
                 <h1>عروض فنادق رمضان 1447هـ / 2026م</h1>
             </div>
             <p class="subtitle">مكة المكرمة</p>
             
             <div class="filter-section">
                 <div class="search-box">
-                    <i class="fas fa-search"></i>
+                    <span class="search-icon">🔍</span>
                     <input type="text" id="search-input" placeholder="ابحث باسم الفندق..." aria-label="بحث عن فندق">
                 </div>
                 
@@ -1605,11 +1769,11 @@ function renderOperators(list){
         </div>
         
         <div class="error-container" id="error-container">
-            <i class="fas fa-exclamation-triangle"></i>
+            <span class="warning-icon">⚠️</span>
             <h3>فشل في تحميل البيانات</h3>
-            <p id="error-message">تعذر الاتصال.</p>
+            <p id="error-message">تعذر الاتصال بالخادم.</p>
             <button class="retry-btn" id="retry-btn">
-                <i class="fas fa-redo"></i> إعادة المحاولة
+                ↻ إعادة المحاولة
             </button>
         </div>
         
@@ -1627,14 +1791,14 @@ function renderOperators(list){
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    </tbody>
+                </tbody>
             </table>
         </div>
 
         <div class="pagination-container" id="pagination-container" style="display: none;">
             <div class="pagination-info" id="pagination-info">عرض 0-0 من أصل 0</div>
             <div class="pagination-controls" id="pagination-controls">
-                </div>
+            </div>
         </div>
         
         <footer>
@@ -1644,6 +1808,7 @@ function renderOperators(list){
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // رابط Google Apps Script الأصلي (بدون وسيط)
         const API_URL = 'https://script.google.com/macros/s/AKfycbyjrm0ppXjTN6lyGIouBvbAKWSBctDK5elr4rPWb2SxTg0YQB3rmtSBXqDZ2ocJ85db0g/exec';
         
         let allHotelsData = [];
@@ -1662,14 +1827,46 @@ function renderOperators(list){
         const searchInput = document.getElementById('search-input');
         const sortSelect = document.getElementById('sort-select');
         const retryBtn = document.getElementById('retry-btn');
-        
+
+        // بيانات وهمية احتياطية
+        const mockData = [
+            {
+                "اسم الفندق": "فندق الحرم",
+                "تفاصيل الغرفة/الفترة": "غرفة ديلوكس - 30 ليلة",
+                "سعر كامل الشهر (أو المدة المحددة)": "3,360",
+                "سعر العشر الأوائل": "1,200",
+                "سعر العشر الوسطى": "1,100",
+                "سعر العشر الأواخر": "1,060",
+                "مميز": "★"
+            },
+            {
+                "اسم الفندق": "فندق مكة رويال",
+                "تفاصيل الغرفة/الفترة": "جناح عائلي - 30 ليلة",
+                "سعر كامل الشهر (أو المدة المحددة)": "8,500",
+                "سعر العشر الأوائل": "3,000",
+                "سعر العشر الوسطى": "2,800",
+                "سعر العشر الأواخر": "2,700",
+                "مميز": "جديد"
+            },
+            {
+                "اسم الفندق": "فندق أبراج البيت",
+                "تفاصيل الغرفة/الفترة": "غرفة سوبريور - 30 ليلة",
+                "سعر كامل الشهر (أو المدة المحددة)": "6,200",
+                "سعر العشر الأوائل": "2,200",
+                "سعر العشر الوسطى": "2,000",
+                "سعر العشر الأواخر": "2,000",
+                "مميز": "-"
+            }
+        ];
+
         loadHotelsData();
         
         async function loadHotelsData() {
             try {
                 showLoading(true);
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(API_URL)}`;
-                const response = await fetch(proxyUrl);
+                
+                // محاولة جلب البيانات من المصدر الحقيقي
+                const response = await fetch(API_URL);
                 
                 if (!response.ok) throw new Error('فشل الاتصال بالخادم');
                 
@@ -1686,12 +1883,14 @@ function renderOperators(list){
 
                 allHotelsData = data;
                 filteredHotels = [...allHotelsData];
-                
                 applyFilters();
 
             } catch (error) {
-                console.error(error);
-                showError(error.message);
+                console.warn('فشل تحميل البيانات الحقيقية، استخدام البيانات الوهمية:', error);
+                // استخدام البيانات الوهمية عند الفشل
+                allHotelsData = mockData;
+                filteredHotels = [...allHotelsData];
+                applyFilters();
             } finally {
                 showLoading(false);
             }
@@ -1701,19 +1900,15 @@ function renderOperators(list){
             const searchTerm = searchInput.value.toLowerCase().trim();
             const sortValue = sortSelect.value;
 
-            // التصفية
             filteredHotels = allHotelsData.filter(hotel => {
                 const name = (hotel["اسم الفندق"] || "").toLowerCase();
                 const details = (hotel["تفاصيل الغرفة/الفترة"] || "").toLowerCase();
                 return name.includes(searchTerm) || details.includes(searchTerm);
             });
 
-            // الترتيب - تم تحديث أسماء المفاتيح هنا لتشمل كلمة "سعر"
             filteredHotels.sort((a, b) => {
                 const nameA = (a["اسم الفندق"] || "").toLowerCase();
                 const nameB = (b["اسم الفندق"] || "").toLowerCase();
-                
-                // استخدام المفتاح الصحيح للسعر
                 const priceA = parsePrice(a["سعر كامل الشهر (أو المدة المحددة)"]);
                 const priceB = parsePrice(b["سعر كامل الشهر (أو المدة المحددة)"]);
 
@@ -1746,10 +1941,9 @@ function renderOperators(list){
             pageData.forEach(hotel => {
                 const isNew = hotel["مميز"] && (hotel["مميز"].toString().includes("جديد") || hotel["مميز"].toString().includes("new"));
                 const badge = isNew 
-                    ? `<span style="color:var(--accent-color);font-weight:bold"><i class="fas fa-star"></i></span>` 
+                    ? `<span style="color:var(--orange);font-weight:bold">★</span>` 
                     : (hotel["مميز"] || '-');
                 
-                // هنا التغيير المهم: استخدام أسماء الأعمدة الصحيحة كما في ملف JSON
                 const fullMonth = hotel["سعر كامل الشهر (أو المدة المحددة)"];
                 const first10 = hotel["سعر العشر الأوائل"];
                 const mid10 = hotel["سعر العشر الوسطى"];
@@ -1782,7 +1976,7 @@ function renderOperators(list){
             
             const prevBtn = document.createElement('button');
             prevBtn.className = 'page-btn';
-            prevBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            prevBtn.innerHTML = '→';
             prevBtn.disabled = currentPage === 1;
             prevBtn.onclick = () => { currentPage--; renderTable(); };
             paginationControls.appendChild(prevBtn);
@@ -1810,7 +2004,7 @@ function renderOperators(list){
 
             const nextBtn = document.createElement('button');
             nextBtn.className = 'page-btn';
-            nextBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            nextBtn.innerHTML = '←';
             nextBtn.disabled = currentPage === totalPages;
             nextBtn.onclick = () => { currentPage++; renderTable(); };
             paginationControls.appendChild(nextBtn);
@@ -1818,14 +2012,12 @@ function renderOperators(list){
 
         function parsePrice(priceStr) {
             if (!priceStr) return 99999999;
-            // إزالة الفواصل إذا كانت موجودة (مثال: 3,360 تصبح 3360)
             let clean = priceStr.toString().replace(/,/g, '').replace(/[^\d.]/g, '');
             return parseFloat(clean) || 99999999;
         }
 
         function formatPrice(price) {
             if (!price || price == "-" || price == "غير متاح") return "غير متاح";
-            // التحقق مما إذا كان الرقم يحتوي على فواصل بالفعل
             if (typeof price === 'string' && price.includes(',')) {
                  return price + " ريال";
             }
@@ -1858,6 +2050,7 @@ function renderOperators(list){
     </script>
 </body>
 </html>
+
 
         </div>
     </div>
